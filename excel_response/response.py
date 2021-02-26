@@ -1,7 +1,7 @@
 import csv
+import io
 
 import django
-import six
 from django.http.response import HttpResponse
 from openpyxl import Workbook
 from openpyxl.cell import WriteOnlyCell
@@ -66,7 +66,7 @@ class ExcelResponse(HttpResponse):
             headers = data[0]
         if len(data) > ROW_LIMIT or len(headers) > COL_LIMIT or self.force_csv:
             self.force_csv = True
-            workbook = six.StringIO()
+            workbook = io.StringIO()
             csvwriter = csv.writer(workbook, dialect='excel')
             append = getattr(csvwriter, 'writerow')
             write_header = append

@@ -1,7 +1,8 @@
 from collections import OrderedDict
+import io
 
 import openpyxl
-import six
+
 from django.test import TestCase
 from openpyxl.styles import Font
 
@@ -122,7 +123,7 @@ class ExcelResponseExcelTest(TestCase):
         r = response.ExcelResponse(
             [['a', 'b', 'c'], [1, 2, 3], [4, 5, 6]]
         )
-        output = six.BytesIO(r.getvalue())
+        output = io.BytesIO(r.getvalue())
         # This should theoretically raise errors if it's not a valid spreadsheet
         wb = openpyxl.load_workbook(output, read_only=True)
         ws = wb.active
@@ -136,7 +137,7 @@ class ExcelResponseExcelTest(TestCase):
                 {'a': 4, 'b': 5, 'c': 6}
             ]
         )
-        output = six.BytesIO(r.getvalue())
+        output = io.BytesIO(r.getvalue())
         openpyxl.load_workbook(output, read_only=True)
 
     def test_create_excel_from_queryset(self):
@@ -146,7 +147,7 @@ class ExcelResponseExcelTest(TestCase):
         r = response.ExcelResponse(
             TestModel.objects.all()
         )
-        output = six.BytesIO(r.getvalue())
+        output = io.BytesIO(r.getvalue())
         openpyxl.load_workbook(output, read_only=True)
 
     def test_header_font_is_applied(self):
@@ -155,7 +156,7 @@ class ExcelResponseExcelTest(TestCase):
             [['a', 'b', 'c'], [1, 2, 3], [4, 5, 6]],
             header_font=f
         )
-        output = six.BytesIO(r.getvalue())
+        output = io.BytesIO(r.getvalue())
         book = openpyxl.load_workbook(output, read_only=True)
         sheet = book.active
         cell = sheet['A1']
@@ -167,7 +168,7 @@ class ExcelResponseExcelTest(TestCase):
             [['a', 'b', 'c'], [1, 2, 3], [4, 5, 6]],
             data_font=f
         )
-        output = six.BytesIO(r.getvalue())
+        output = io.BytesIO(r.getvalue())
         book = openpyxl.load_workbook(output, read_only=True)
         sheet = book.active
         cell = sheet['A2']
@@ -177,7 +178,7 @@ class ExcelResponseExcelTest(TestCase):
         r = response.ExcelResponse(
             [['a', 'b', 'c'], ['2018032710050111540290000000000720000000023', 2, 3], [4, 5, 6]]
         )
-        output = six.BytesIO(r.getvalue())
+        output = io.BytesIO(r.getvalue())
         # This should theoretically raise errors if it's not a valid spreadsheet
         wb = openpyxl.load_workbook(output, read_only=True)
         ws = wb.active
@@ -188,7 +189,7 @@ class ExcelResponseExcelTest(TestCase):
         r = response.ExcelResponse(
             [['a', 'b', 'c'], ['2018032710050111540290000000000720000000023', 2, 3], [4, 5, 6]], guess_types=False
         )
-        output = six.BytesIO(r.getvalue())
+        output = io.BytesIO(r.getvalue())
         # This should theoretically raise errors if it's not a valid spreadsheet
         wb = openpyxl.load_workbook(output, read_only=True)
         ws = wb.active
@@ -204,5 +205,5 @@ class CBVTest(TestCase):
         TestModel.objects.create(text='b', number='2')
         TestModel.objects.create(text='c', number='3')
         response = self.client.get('/test/')
-        output = six.BytesIO(response.content)
+        output = io.BytesIO(response.content)
         openpyxl.load_workbook(output, read_only=True)
