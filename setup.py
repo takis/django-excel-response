@@ -26,7 +26,7 @@ setup(
     download_url='https://github.com/tarkatronic/django-excel-response/archive/master.tar.gz',
     install_requires=[
         'Django>=2.2',
-        'openpyxl<2.5'
+        'openpyxl>=3.0'
     ],
 
     classifiers=[
