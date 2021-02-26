@@ -10,10 +10,7 @@ from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.writer.write_only import WriteOnlyCell
 
 
-if django.VERSION >= (1, 9):
-    from django.db.models.query import QuerySet
-else:
-    from django.db.models.query import QuerySet, ValuesQuerySet
+from django.db.models.query import QuerySet
 
 
 ROW_LIMIT = 1048576
@@ -50,9 +47,6 @@ class ExcelResponse(HttpResponse):
             workbook = self._serialize_list(value)
         elif isinstance(value, QuerySet):
             workbook = self._serialize_queryset(value)
-        if django.VERSION < (1, 9):
-            if isinstance(value, ValuesQuerySet):
-                workbook = self._serialize_values_queryset(value)
         if workbook is None:
             raise ValueError('ExcelResponse accepts the following data types: list, dict, QuerySet, ValuesQuerySet')
 
