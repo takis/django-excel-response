@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import TestView
 
 
 urlpatterns = [
-    url(r'^test/$', TestView.as_view())
+    path('test/', TestView.as_view())
 ]
