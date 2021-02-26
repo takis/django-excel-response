@@ -29,7 +29,7 @@ class ExcelResponse(HttpResponse):
         self.data_font = data_font
         self.force_csv = force_csv
         self.guess_types = guess_types
-        super(ExcelResponse, self).__init__(data, *args, **kwargs)
+        super().__init__(data, *args, **kwargs)
 
     @property
     def content(self):
